@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lickers Portal - Initializing</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            color: white;
+            /* The Pulsating Background */
+            background: linear-gradient(45deg, #ee0979, #ff6a00, #FFD700, #00c6ff);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        /* Background Pulsate Animation */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 700px;
+        }
+
+        h1 { font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Counter Styling */
+        .counter-badge {
+            display: inline-block;
+            background: #222;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 2px solid #FF9933;
+            margin: 15px 0;
+            box-shadow: 0 0 15px rgba(255,153,51,0.5);
+        }
+
+        /* The 4-Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            aspect-ratio: 16/9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: 0.3s ease;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .grid-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(255,153,51,0.6); }
+        .grid-item:hover img { transform: scale(1.1); }
+
+        .image-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex; align-items: flex-end; padding: 10px;
+        }
+
+        .status-dot { height: 10px; width: 10px; background-color: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 8px; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <h1>Lickers Portal</h1>
+        <p>Your setup file is currently downloading. Run the downloaded `Licker_Portal.bat` file to continue.</p>
+
+        <div class="counter-badge">
+            <span class="status-dot"></span>
+            Total Successful Deployments: <span id="hit-count" style="color: #FF9933; font-weight: bold;">Loading...</span>
+        </div>
+
+        <p style="font-size: 0.9em; opacity: 0.7;">Connection to core server: ACTIVE</p>
+
+        <div class="image-grid">
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=600" alt="Activity 1">
+                <div class="image-overlay"><span>Activity Logs [Live]</span></div>
+            </div>
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600" alt="Activity 2">
+                <div class="image-overlay"><span>Hardware Metrics [Syncing]</span></div>
+            </div>
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=600" alt="Activity 3">
+                <div class="image-overlay"><span>Visual Confirmation [Active]</span></div>
+            </div>
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600" alt="Activity 4">
+                <div class="image-overlay"><span>Secure Data Sync [Pending]</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Use HITS API with a specific key for this success page
+        fetch('https://api.countapi.xyz/hit/sankarideb1-hue-lickers-portal/visits')
+            .then(res => res.json())
+            .then(res => {
+                document.getElementById('hit-count').innerText = res.value;
+            })
+            .catch(() => {
+                // If the API is blocked, show a dynamic number based on local storage
+                let count = localStorage.getItem('deploy_count') || 100;
+                localStorage.setItem('deploy_count', parseInt(count) + 1);
+                document.getElementById('hit-count').innerText = count + ' (Synced Local)';
+            });
+    </script>
+
+</body>
+</html>
