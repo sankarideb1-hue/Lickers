@@ -1,10 +1,16 @@
-name: Build Windows Executable
+name: Build and Sync Executable
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Licker.py' # Only runs when the python code changes
 
 jobs:
-  build-windows:
-    runs-on: windows-latest  # We use Windows to build a Windows .exe
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write  # Crucial for pushing the file back to the repo
 
     steps:
     - name: Checkout code
@@ -15,7 +21,7 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install PyInstaller
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
@@ -23,8 +29,11 @@ jobs:
     - name: Build Executable
       run: pyinstaller --onefile Licker.py
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: licker-executable
-        path: dist/Licker.exe
+    - name: Sync EXE to Repo
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        copy dist\Licker.exe .
+        git add Licker.exe
+        git commit -m "Auto-build: Update Licker.exe" || echo "No changes to commit"
+        git push
