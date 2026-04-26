@@ -1,0 +1,30 @@
+name: Build Windows Executable
+
+on: [push]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest  # We use Windows to build a Windows .exe
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install PyInstaller
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+
+    - name: Build Executable
+      run: pyinstaller --onefile Licker.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: licker-executable
+        path: dist/Licker.exe
