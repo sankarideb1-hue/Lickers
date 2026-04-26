@@ -3,18 +3,19 @@ name: Build and Sync Executable
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'Licker.py' # Only runs when the python code changes
+  workflow_dispatch: # This allows you to run it manually from the Actions tab
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write  # Crucial for pushing the file back to the repo
+      contents: write
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Ensures it can push back to the repo properly
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -30,10 +31,11 @@ jobs:
       run: pyinstaller --onefile Licker.py
 
     - name: Sync EXE to Repo
+      shell: cmd
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        copy dist\Licker.exe .
+        copy /Y dist\Licker.exe .
         git add Licker.exe
-        git commit -m "Auto-build: Update Licker.exe" || echo "No changes to commit"
+        git commit -m "Auto-build: Update Licker.exe" || exit 0
         git push
