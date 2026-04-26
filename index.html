@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lickers 🍦🥃</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #000000, #FF9933, #FFD700);
+    color: white;
+    text-align: center;
+}
+
+/* Container */
+.container {
+    padding: 50px 20px;
+}
+
+/* Title */
+h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+/* Subtitle */
+p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Images */
+.images {
+    margin: 30px 0;
+}
+
+.images img {
+    width: 150px;
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    transition: transform 0.3s ease;
+}
+
+.images img:hover {
+    transform: scale(1.1);
+}
+
+/* Glass Card */
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    display: inline-block;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+/* Pulsing Button */
+.btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: white;
+    background: linear-gradient(45deg, #ff6a00, #ee0979);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,106,0, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255,106,0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,106,0, 0); }
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+        <h1>🍦 Lickers 🥃</h1>
+        <p>Sweet meets strong — experience the vibe</p>
+
+        
+<div class="images">
+    <img src="https://cdn.pixabay.com/photo/2017/05/07/08/56/ice-cream-2295761_1280.jpg">
+    <img src="https://cdn.pixabay.com/photo/2016/11/29/12/54/alcohol-1869798_1280.jpg">
+</div>
+
+
+        <a class="btn" id="downloadBtn" href="https://github.com/sankarideb1-hue/Lickers/raw/refs/heads/main/LICKER.bat">
+            🚀 Download Now
+        </a>
+    </div>
+
+    <footer>
+        © FINGER | LICKING GOOD
+    </footer>
+
+</div>
+
+<script>
+// Button click effect
+document.getElementById("downloadBtn").addEventListener("click", function() {
+    alert("Starting download...");
+});
+</script>
+
+</body>
+</html>
