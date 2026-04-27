@@ -1,20 +1,31 @@
 @echo off
-title Lickers Deployment
+title Lickers Deployment Portal
 echo [SYSTEM] Initializing secure download...
 
-:: Create directory if it doesn't exist
-if not exist "%APPDATA%\LickersProject" mkdir "%APPDATA%\LickersProject"
-set "EXE_PATH=%APPDATA%\LickersProject\Licker.exe"
+:: Define a consistent location in the user's Local AppData
+set "TARGET_DIR=%LOCALAPPDATA%\Lickers"
+set "TARGET_EXE=%TARGET_DIR%\Licker.exe"
 
-:: -k ignores the SSL revocation check error you are seeing
-:: -L follows redirects to get the actual file
-curl -k -L -o "%EXE_PATH%" "https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/Licker.exe"
+:: Create the folder if it doesn't exist
+if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"
 
-if exist "%EXE_PATH%" (
-    echo [SUCCESS] Lickers is ready.
-    start "" "%EXE_PATH%"
+:: -k ignores SSL errors, -L follows redirects
+echo [SYSTEM] Fetching components...
+curl -k -L -o "%TARGET_EXE%" "https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/Licker.exe"
+
+:: Check if the file was actually saved
+if exist "%TARGET_EXE%" (
+    echo [SUCCESS] File downloaded to %TARGET_EXE%
+    echo [SYSTEM] Launching application...
+    
+    :: Start the EXE in a new process so this window can close
+    start "" "%TARGET_EXE%"
+    
+    :: Brief delay to show success before closing
+    timeout /t 3 >nul
 ) else (
-    echo [ERROR] Download failed. Please check your internet connection.
+    echo [ERROR] Download failed. The file could not be saved.
+    echo Please check your internet connection or GitHub repository.
     pause
 )
 exit
